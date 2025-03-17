@@ -1,0 +1,6 @@
+Date,Amount,Category,Receipt,Description,Cleared,PaymentMethod,Tags,BudgetPeriod,Currency,Location,Recurring
+2025-03-01,45.50,Food,base64_encoded_receipt_data1,Grocery shopping,False,Credit Card,groceries|essentials,March2025,USD,Whole Foods,False
+2025-03-03,25.00,Transport,base64_encoded_receipt_data2,Bus fare,False,Cash,commute,March2025,USD,Metro Station,True
+2025-03-05,120.00,Utilities,base64_encoded_receipt_data3,Electricity bill,False,Bank Transfer,utilities|home,March2025,USD,Power Company,True
+2025-03-07,35.75,Other,base64_encoded_receipt_data4,Office supplies,False,Debit Card,work|supplies,March2025,USD,Office Depot,False
+2025-03-10,65.25,Food,base64_encoded_receipt_data5,Restaurant dinner,False,Credit Card,dining|entertainment,March2025,USD,Local Bistro,False
