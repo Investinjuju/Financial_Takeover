@@ -1,9 +1,8 @@
 # Personal Expense Tracker and Budget Manager
 
-&lt;p align="center"&gt;
-  &lt;img src="images/screenshot_1.png" alt="Dashboard Screenshot" width="100%"/&gt;
-&lt;/p&gt;
-
+<p align="center">
+  <img src="images/screenshot_1.png" alt="Input Screen" width="100%"/>
+</p>
 ## Project Overview
 
 This Streamlit-based expense tracker and budget management application helps users monitor their spending, set budgets, and analyze their financial habits. It provides an intuitive interface for tracking expenses, generating reports, and visualizing spending patterns.
