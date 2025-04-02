@@ -26,12 +26,12 @@ This Streamlit-based expense tracker and budget management application helps use
 
 ## Analytics and Reporting
 
+<img align="right" src="images/screenshot_9.png" alt="Analytics Demo" width="10%" style="margin-left: 20px"/>
+
 * Interactive spending visualizations
 * Monthly and yearly comparison charts
 * Category-wise expense breakdown
 * Exportable reports in multiple formats (CSV, Excel, JSON)
-
-<img src="images/screenshot_9.png" alt="Analytics Demo" width="15%" align="right"/>
 
 ### Additional Features:
 
