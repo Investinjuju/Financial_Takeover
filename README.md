@@ -37,7 +37,7 @@ This Streamlit-based expense tracker and budget management application helps use
 
 </td>
 <td width="50%">
-<img src="images/screenshot_9.png" alt="Analytics Screenshot" width="25%"/>
+<img src="images/screenshot_9.png" alt="Analytics Screenshot" width="50%"/>
 </td>
 </tr>
 </table>
