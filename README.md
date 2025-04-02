@@ -17,9 +17,8 @@ This Streamlit-based expense tracker and budget management application helps use
 * Multiple currency support
 * Transaction history with filtering options
 
-<img align="right" src="images/screenshot_10.png" alt="Budget Demo" width="40%" style="margin-left: 40px"/>
-
 ### Budget Management:
+<img align="right" src="images/screenshot_10.png" alt="Budget Demo" width="40%" style="margin-left: 40px"/>
 
 * Monthly budget setting and tracking
 * Category-wise budget allocation
@@ -40,10 +39,6 @@ This Streamlit-based expense tracker and budget management application helps use
 * Reciept Reader
 * PDF report generation
 * Multi-format export options
-
-&lt;p align="left"&gt;
-  &lt;img src="images/features_screen.png" alt="Features Screenshot" width="57%"/&gt;
-&lt;/p&gt;
 
 ## Tech Stack
 
