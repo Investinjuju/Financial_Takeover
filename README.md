@@ -19,14 +19,14 @@ This Streamlit-based expense tracker and budget management application helps use
 
 ### Budget Management:
 
+<img align="right" src="images/screenshot_10.png" alt="Budget Demo" width="40%" style="margin-left: -1000px"/>
+
 * Monthly budget setting and tracking
 * Category-wise budget allocation
 * Alert system for budget thresholds
 * Customizable spending categories
 
 ## Analytics and Reporting
-
-<img src="images/screenshot_9.png" alt="Analytics Demo" width="30%" style="float: right; margin: 0 0 0 -100px;"/>
 
 * Interactive spending visualizations
 * Monthly and yearly comparison charts
