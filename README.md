@@ -17,16 +17,16 @@ This Streamlit-based expense tracker and budget management application helps use
 * Multiple currency support
 * Transaction history with filtering options
 
-### Budget Management:
+<img align="right" src="images/screenshot_10.png" alt="Budget Demo" width="40%" style="margin-left: 40px"/>
 
-<img align="right" src="images/screenshot_10.png" alt="Budget Demo" width="40%" style="margin-left: -1000px"/>
+### Budget Management:
 
 * Monthly budget setting and tracking
 * Category-wise budget allocation
 * Alert system for budget thresholds
 * Customizable spending categories
 
-## Analytics and Reporting
+### Analytics and Reporting
 
 * Interactive spending visualizations
 * Monthly and yearly comparison charts
