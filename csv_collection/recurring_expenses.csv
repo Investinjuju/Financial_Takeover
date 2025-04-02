@@ -1,0 +1,4 @@
+recurring_id,description,amount,category,frequency,start_date,end_date,active
+1,Netflix Subscription,15.99,Entertainment,monthly,2025-01-01,,true
+2,Gym Membership,50.00,Health,monthly,2025-01-01,2025-12-31,true
+3,Bus Pass,100.00,Transport,monthly,2025-01-01,,true

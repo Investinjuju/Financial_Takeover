@@ -14,6 +14,7 @@ import os
 import time
 from pathlib import Path
 
+
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
         data = f.read()
@@ -21,14 +22,30 @@ def get_base64_of_bin_file(png_file):
 
 def set_png_as_page_bg(png_file):
     bin_str = get_base64_of_bin_file(png_file)
-    page_bg_img = '''
+    page_bg_img = f'''
     <style>
-    .stApp {
-        background-image: url("data:image/png;base64,%s");
+    .hover-effect:hover {{
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }}
+
+    .success-animation {{
+        animation: successPulse 1s ease-in-out;
+    }}
+
+    @keyframes successPulse {{
+        0% {{ transform: scale(1); }}
+        50% {{ transform: scale(1.1); }}
+        100% {{ transform: scale(1); }}
+    }}
+
+    .stApp {{
+        background-image: url("data:image/png;base64,{bin_str}");
         background-size: cover;
-    }
+    }}
     </style>
-    ''' % bin_str
+    '''
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
 # Page configuration must be the first Streamlit command
@@ -116,6 +133,7 @@ def load_data():
         return data
     except:
         return pd.DataFrame(columns=["Date", "Amount", "Category", "Receipt"])
+    
 
 
 
@@ -194,7 +212,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 if not st.session_state.welcome_completed:
-    set_png_as_page_bg('images/picture_2.webp')  
+    set_png_as_page_bg('images/picture_2.png')  
     st.markdown("""
     <style>
     .welcome-header {
@@ -412,19 +430,38 @@ input {
 }
 /* About Project Section Styles */
     .about-project {
-        background-color: #000010;  /* Dark blue background */
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-    }
-    
-    .about-project h2 {
-        color: #00FF7F;  /* Spring green headers */
-    }
-    
-    .about-project p {
-        color: #F0F8FF;  /* Alice blue text */
-    }
+    background: linear-gradient(135deg, #000020, #000033);
+    padding: 30px;
+    border-radius: 15px;
+    margin: 25px 0;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.about-project h2 {
+    color: #FFFFFF;
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #000080;
+    padding-bottom: 10px;
+}
+
+.about-project p {
+    color: #FFFFFF;
+    line-height: 1.6;
+    font-size: 1.1em;
+    margin: 15px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+/* Add hover effect */
+.about-project:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+    box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+}
     
     /* Creators Section Styles */
     .creator-card {
@@ -581,6 +618,30 @@ def recall_financial_history(index):
         return pd.DataFrame(st.session_state.financial_history[index]['transactions'])
     return None
 
+def edit_transaction(data, index, new_date, new_amount, new_category):
+    try:
+        # Convert new_date to string format if it's a datetime object
+        if isinstance(new_date, datetime):
+            new_date = new_date.strftime('%Y-%m-%d')
+            
+        # Update the transaction
+        data.at[index, 'Date'] = new_date
+        data.at[index, 'Amount'] = new_amount
+        data.at[index, 'Category'] = new_category
+        
+        # Save to CSV
+        data.to_csv("expenses.csv", index=False)
+        
+        # Force dashboard refresh
+        st.session_state.force_refresh = True
+        
+        # Update metrics
+        update_financial_metrics()
+        return True
+    except Exception as e:
+        st.error(f"Error updating transaction: {str(e)}")
+        return False
+
 # Sidebar navigation
 st.sidebar.title('Navigation')
 selected_page = st.sidebar.radio('Go to', ['Home', 'Transactions', 'Analytics', 'History', 'Settings', 'Creators'])
@@ -599,7 +660,33 @@ if st.sidebar.button("Backup Data"):
 # Home Page (Dashboard)
 if selected_page == 'Home':
     
-    st.title('My Financial Dashboard')
+    st.markdown("""
+    <h1 style='display: inline-block;'>My Financial Dashboard 
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 20px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>The financial dashboard shows your current balance, spending, and budget status with visual charts and recent transaction history.</span>
+        </span>
+    </h1>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     update_financial_metrics()
     clear_financial_data()
     
@@ -656,12 +743,64 @@ if selected_page == 'Home':
             unsafe_allow_html=True
         )
     
-    st.subheader("Recent Activity")
+    st.markdown("""
+    <h3 style='display: inline-block;'>Recent Activity
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 16px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>The recent activity function displays the last 5 transactions and automatically updates when new financial data is added, allowing users to quickly view their latest spending activity.</span>
+        </span>
+    </h3>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     data = st.session_state.current_data if st.session_state.current_data is not None else load_data()
     if not data.empty:
         st.dataframe(data.tail(5), use_container_width=True)
     
-    st.subheader("Quick Add Expense")
+    st.markdown("""
+    <h3 style='display: inline-block;'>Quick Add Expense
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 16px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>The quick add expense function lets users add new transactions with date and amount validation, category selection, and budget limit checks. The system automatically updates financial metrics and recent activities after each new entry.</span>
+        </span>
+    </h3>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     with st.form("quick_expense"):
         date = st.date_input("Date")
         amount = st.number_input("Amount", min_value=0.01)
@@ -695,7 +834,33 @@ if selected_page == 'Home':
 
 # Transactions Page
 elif selected_page == 'Transactions':
-    st.title('Transaction History')
+    st.markdown("""
+    <h1 style='display: inline-block;'>Transaction History 
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 20px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>Transaction history shows all your past transactions with options to sort and filter.</span>
+        </span>
+    </h1>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     with col1:
@@ -715,29 +880,69 @@ elif selected_page == 'Transactions':
     if not data.empty:
         st.dataframe(data.drop('Receipt', axis=1), use_container_width=True)
         
-        st.subheader("Manage Transactions")
-        for idx, row in data.iterrows():
-            col1, col2, col3, col4, col5 = st.columns([2, 2, 2, 1, 1])
-            with col1:
-                st.write(f"Date: {row['Date']}")
-            with col2:
-                st.write(f"Amount: ${row['Amount']:.2f}")
-            with col3:
-                st.write(f"Category: {row['Category']}")
-            with col4:
-                if row['Receipt'] and isinstance(row['Receipt'], str):
-                    try:
-                        receipt_image = Image.open(io.BytesIO(base64.b64decode(row['Receipt'])))
-                        st.image(receipt_image, width=100)
-                    except:
-                        st.error("Unable to load receipt image")
-            with col5:
-                if st.button(f"Delete", key=f"del_{idx}"):
-                    full_data = load_data()
-                    full_data = full_data.drop(idx)
-                    full_data.to_csv("expenses.csv", index=False)
-                    load_data.clear()
-                    st.rerun()
+        st.markdown("""
+    <h3 style='display: inline-block;'>Manage Transactions
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 16px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>All financial metrics automatically recalculated after changes. Users can easily find specific entries through sorting and search options.</span>
+        </span>
+    </h3>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+    data = load_data()
+    
+    if not data.empty:
+        for index, row in data.iterrows():
+            with st.expander(f"Transaction {index + 1}: {row['Date']} - {row['Category']} - ${row['Amount']}"):
+                col1, col2 = st.columns([3, 1])
+                
+                with col1:
+                    new_date = st.date_input(f"Date {index}", pd.to_datetime(row['Date']))
+                    new_amount = st.number_input(f"Amount {index}", value=float(row['Amount']))
+                    new_category = st.selectbox(f"Category {index}", 
+                                              options=list(BUDGET_LIMITS.keys()), 
+                                              index=list(BUDGET_LIMITS.keys()).index(row['Category']))
+                    
+                    if st.button(f"Save Changes {index}"):
+                        if edit_transaction(data, index, new_date, new_amount, new_category):
+                            st.success("Transaction updated successfully!")
+                            st.rerun()
+                    
+                    if st.button(f"Delete {index}"):
+                        data = data.drop(index)
+                        data.to_csv("expenses.csv", index=False)
+                        st.session_state.force_refresh = True
+                        update_financial_metrics()
+                        st.success("Transaction deleted!")
+                        st.rerun()
+                
+                with col2:
+                    if 'Receipt' in row and row['Receipt'] and row['Receipt'] != 'None':
+                        try:
+                            receipt_image = Image.open(row['Receipt'])
+                            st.image(receipt_image, caption="Receipt")
+                        except:
+                            pass
+    else:
+        st.info("No transactions found. Add some transactions to get started!")
     
         col1, col2 = st.columns(2)
         with col1:
@@ -749,7 +954,33 @@ elif selected_page == 'Transactions':
 
 # Analytics Page
 elif selected_page == 'Analytics':
-    st.title('Spending Analytics')
+    st.markdown("""
+    <h1 style='display: inline-block;'>Spending Analytics 
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 20px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>Spending analytics shows your financial data with charts to track spending and budgets.</span>
+        </span>
+    </h1>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     
     data = load_data()
     if not data.empty:
@@ -845,9 +1076,38 @@ elif selected_page == 'Analytics':
         st.subheader("Top Expenses")
         st.dataframe(data.nlargest(5, "Amount").drop('Receipt', axis=1), use_container_width=True)
 
+        
+
 
 elif selected_page == 'History':
-    st.title('Financial History')
+    st.markdown("""
+    <h1 style='display: inline-block;'>Financial History 
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 20px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>Financial history stores your previous transaction records and lets you recall up to 5 past versions of your data.</span>
+        </span>
+    </h1>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+    
     
     if st.session_state.financial_history:
         for idx, history in enumerate(st.session_state.financial_history):
@@ -872,7 +1132,33 @@ elif selected_page == 'History':
         st.info("No financial history available yet.")
 
     # Update the recall section to use names
-    st.subheader("Recall Previous History")
+    st.markdown("""
+    <h3 style='display: inline-block;'>Recall Previous History
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 16px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>The recall history feature gives users access to up to 5 previous versions of their financial data. When a historical record is recalled, all financial metrics and transaction data are restored to that point in time.</span>
+        </span>
+    </h3>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     if st.session_state.financial_history:
         history_index = st.selectbox(
             "Select history to recall",
@@ -915,9 +1201,61 @@ elif selected_page == 'History':
 
 # Settings Page
 elif selected_page == 'Settings':
-    st.title('Settings')
+    st.markdown("""
+    <h1 style='display: inline-block;'>Settings 
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 20px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>Settings allows you to customize your account preferences, notification alerts, and budget limits.</span>
+        </span>
+    </h1>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     
-    st.subheader("Budget Settings")
+    st.markdown("""
+    <h3 style='display: inline-block;'>Budget Setting
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 16px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>The budget setting feature allows users to manage spending limits across 15 expense categories like Food ($500), Housing ($1000), and Transportation ($200). The system monitors spending and sends alerts when approaching or exceeding budget limits.</span>
+        </span>
+    </h3>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     new_budgets = {}
     for category, limit in BUDGET_LIMITS.items():
         new_budgets[category] = st.number_input(f"{category} Budget", value=limit, min_value=0)
@@ -927,14 +1265,66 @@ elif selected_page == 'Settings':
             json.dump(new_budgets, f)
         st.success("Budget settings saved!")
     
-    st.subheader("Category Management")
+    st.markdown("""
+    <h3 style='display: inline-block;'>Category Management
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 16px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>View your latest financial activities</span>
+        </span>
+    </h3>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     new_category = st.text_input("Add New Category")
     if st.button("Add Category") and new_category:
         BUDGET_LIMITS[new_category] = 0
         st.success(f"Added category: {new_category}")
         st.rerun()
     
-    st.subheader("Display Settings")
+    st.markdown("""
+    <h3 style='display: inline-block;'>Display Settings
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 16px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>View your latest financial activities</span>
+        </span>
+    </h3>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     currency_options = {
         'USD': '$',
         'EUR': '€',
@@ -948,7 +1338,33 @@ elif selected_page == 'Settings':
     )
     st.session_state.currency = selected_currency
     
-    st.subheader("Data Management")
+    st.markdown("""
+    <h3 style='display: inline-block;'>Data Management
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 16px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>View your latest financial activities</span>
+        </span>
+    </h3>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
     if st.button("Clear All Data"):
         if st.checkbox("I understand this will delete all my data"):
             try:
@@ -961,15 +1377,51 @@ elif selected_page == 'Settings':
 
 # Creators Page
 elif selected_page == 'Creators':
-    st.title('Meet the Creators')
     st.markdown("""
-    <div style='padding: 20px; background-color: rgba(0, 0, 0, 0.1); border-radius: 10px; margin-bottom: 20px;'>
-        <h3 style='color: #FFFFFF;'>About the Project</h3>
-        <p>Financial Takeover is a comprehensive expense tracking and budgeting application developed using Streamlit, demonstrating advanced financial management capabilities through an intuitive web interface. Our mission is to empower users with tools that transform their financial management experience, making budget tracking and expense monitoring both accessible and efficient.
-This project showcases robust features including real-time expense monitoring, multi-category budget tracking, and detailed financial analytics, all implemented with modern Python frameworks and best practices in financial software development.
-The application serves diverse user needs, from individual budget management to small business expense tracking, incorporating secure data handling and interactive visualization components. Built with scalability and user experience in mind, it represents a practical solution to contemporary financial management challenges.</p>
+    <h1 style='display: inline-block;'>Meet the Creators 
+        <span style='position: relative; cursor: help; margin-left: 10px;'>
+            <span style='color: #FFFFFF; font-size: 20px; position: relative; bottom: 5px;'>ⓘ</span>
+            <span style='
+                visibility: hidden;
+                width: 200px;
+                background-color: black;
+                color: white;
+                text-align: center;
+                padding: 5px;
+                border-radius: 6px;
+                position: absolute;
+                z-index: 999;
+                bottom: 100%;
+                left: 50%;
+                margin-left: -100px;
+                font-size: 12px;
+            '>Meet the Financial Takeover team - a group of dedicated developers and designers who created this comprehensive financial management tool.</span>
+        </span>
+    </h1>
+    <style>
+        span:hover > span {
+            visibility: visible !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+    st.markdown("""
+<div class='about-project'>
+    <h2>About the Project</h2>
+    <div style='background-color: #000010; padding: 20px; border-radius: 10px; margin: 10px 0;'>
+        <p style='color: #FFFFFF;'>Financial Takeover is a comprehensive expense tracking and budgeting application developed using Streamlit, demonstrating advanced financial management capabilities through an intuitive web interface. Our mission is to empower users with tools that transform their financial management experience, making budget tracking and expense monitoring both accessible and efficient.</p>
+        <h3 style='color: #FFFFFF; margin-top: 20px;'>Key Features</h3>
+        <ul style='color: #FFFFFF; list-style-type: none; padding-left: 0;'>
+            <li>📊 Real-time expense monitoring</li>
+            <li>💰 Multi-category budget tracking</li>
+            <li>📈 Detailed financial analytics</li>
+            <li>🔧 Modern Python frameworks implementation</li>
+            <li>✨ Best practices in financial software development</li>
+        </ul>
+        <p style='color: #FFFFFF; margin-top: 20px;'>The application serves diverse user needs, from individual budget management to small business expense tracking, incorporating secure data handling and interactive visualization components.</p>
+        <p style='color: #FFFFFF;'>Built with scalability and user experience in mind, it represents a practical solution to contemporary financial management challenges.</p>
     </div>
-    """, unsafe_allow_html=True)
+</div>
+""", unsafe_allow_html=True)
 
     st.subheader("Team Members")
     

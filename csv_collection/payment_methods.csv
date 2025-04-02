@@ -1,0 +1,5 @@
+method_id,name,type,last_four,expiry_date,active
+1,Chase Credit,credit,1234,2026-12,true
+2,Bank of America Debit,debit,5678,2025-08,true
+3,Cash,cash,,,true
+4,Venmo,digital,,,true
