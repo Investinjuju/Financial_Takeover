@@ -3,6 +3,7 @@
 <p align="center">
   <img src="images/screenshot_1.png" alt="Input Screen" width="100%"/>
 </p>
+
 ## Project Overview
 
 This Streamlit-based expense tracker and budget management application helps users monitor their spending, set budgets, and analyze their financial habits. It provides an intuitive interface for tracking expenses, generating reports, and visualizing spending patterns.
@@ -36,8 +37,9 @@ This Streamlit-based expense tracker and budget management application helps use
 
 ### Additional Features:
 
-* Dark/Light mode toggle
+* Dark mode interface
 * Data backup and restore
+* Reciept Reader
 * PDF report generation
 * Multi-format export options
 
@@ -65,21 +67,25 @@ This Streamlit-based expense tracker and budget management application helps use
 
 1. Clone the repository:
 ```console
-git clone https://github.com/your-username/expense-tracker.git
-cd expense-tracker
+git clone https://github.com/investinjuju/Financial_Takeover.git
+cd Financial_Takeover
 ```
 
 2. Install dependencies:
 ```console
-pip install -r requirements.txt
+-r run_first.bat
 ```
 
 3. Run the application:
 ```console
-streamlit run Main.py
+-r application.bat
 ```
 
 ## How to Use
+
+<p align="center">
+  <img src="images/screenshot_5.png" alt="Welcome Screen" width="50%"/>
+</p>
 
 ### Adding Expenses
 

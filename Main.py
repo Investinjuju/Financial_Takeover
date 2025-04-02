@@ -115,7 +115,7 @@ def recall_financial_history(index):
         st.session_state.force_refresh = True
         
         # Save to file
-        recalled_data.to_csv("expenses.csv", index=False)
+        recalled_data.to_csv("csv_collection/expenses.csv", index=False)
         
         # Clear all caches
         load_data.clear()
@@ -128,7 +128,7 @@ def recall_financial_history(index):
 @st.cache_data
 def load_data():
     try:
-        data = pd.read_csv("expenses.csv")
+        data = pd.read_csv("csv_collection/expenses.csv")
         st.session_state.current_data = data  # Update session state when loading data
         return data
     except:
@@ -526,7 +526,7 @@ BUDGET_LIMITS = {
 @st.cache_data
 def load_data():
     try:
-        return pd.read_csv("expenses.csv")
+        return pd.read_csv("csv_collection/expenses.csv")
     except:
         return pd.DataFrame(columns=["Date", "Amount", "Category", "Receipt"])
 
@@ -586,7 +586,7 @@ def clear_financial_data():
                         st.session_state.financial_history = st.session_state.financial_history[:5]
                     
                     # Create empty DataFrame and save
-                    pd.DataFrame(columns=["Date", "Amount", "Category", "Receipt"]).to_csv("expenses.csv", index=False)
+                    pd.DataFrame(columns=["Date", "Amount", "Category", "Receipt"]).to_csv("csv_collection/expenses.csv", index=False)
                     
                     # Reset session state
                     st.session_state.current_data = None
@@ -630,7 +630,7 @@ def edit_transaction(data, index, new_date, new_amount, new_category):
         data.at[index, 'Category'] = new_category
         
         # Save to CSV
-        data.to_csv("expenses.csv", index=False)
+        data.to_csv("csv_collection/expenses.csv", index=False)
         
         # Force dashboard refresh
         st.session_state.force_refresh = True
@@ -826,7 +826,7 @@ if selected_page == 'Home':
                     "Receipt": [receipt_data]
                 })
                 data = pd.concat([data, new_expense], ignore_index=True)
-                data.to_csv("expenses.csv", index=False)
+                data.to_csv("csv_collection/expenses.csv", index=False)
                 load_data.clear()
                 st.success("Expense added successfully!")
                 st.rerun()
@@ -928,7 +928,7 @@ elif selected_page == 'Transactions':
                     
                     if st.button(f"Delete {index}"):
                         data = data.drop(index)
-                        data.to_csv("expenses.csv", index=False)
+                        data.to_csv("csv_collection/expenses.csv", index=False)
                         st.session_state.force_refresh = True
                         update_financial_metrics()
                         st.success("Transaction deleted!")
@@ -1190,7 +1190,7 @@ elif selected_page == 'History':
                     st.session_state.recent_activities = recalled_data.tail(5).to_dict('records')
             
                     # Save and update current data
-                    recalled_data.to_csv("expenses.csv", index=False)
+                    recalled_data.to_csv("csv_collection/expenses.csv", index=False)
                     st.session_state.current_data = recalled_data
             
                     #Clear caches and refresh
@@ -1368,7 +1368,7 @@ elif selected_page == 'Settings':
     if st.button("Clear All Data"):
         if st.checkbox("I understand this will delete all my data"):
             try:
-                os.remove("expenses.csv")
+                os.remove("csv_collection/expenses.csv")
                 load_data.clear()
                 st.success("All data cleared!")
                 st.rerun()
