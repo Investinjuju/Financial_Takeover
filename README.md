@@ -36,7 +36,7 @@ This Streamlit-based expense tracker and budget management application helps use
 
 </div>
 <div>
-<img src="images/screenshot_9.png" alt="Analytics Screenshot" style="width: 100%; height: auto;"/>
+<img src="images/screenshot_9.png" alt="Analytics Screenshot" style="width: 20%; height: auto;"/>
 </div>
 </div>
 
