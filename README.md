@@ -18,7 +18,7 @@ This Streamlit-based expense tracker and budget management application helps use
 * Transaction history with filtering options
 
 ### Budget Management:
-<img align="right" src="images/screenshot_10.png" alt="Budget Demo" width="30%" style="margin-left: 40px"/>
+<img align="middle" src="images/screenshot_10.png" alt="Budget Demo" width="30%" style="margin-left: 40px"/>
 
 * Monthly budget setting and tracking
 * Category-wise budget allocation
@@ -77,7 +77,7 @@ cd Financial_Takeover
 ## How to Use
 
 <p align="center">
-  <img src="images/screenshot_5.png" alt="Welcome Screen" width="50%"/>
+  <img src="images/screenshot_5.png" alt="Welcome Screen" width="75%"/>
 </p>
 
 ### Adding Expenses
