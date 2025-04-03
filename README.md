@@ -8,11 +8,25 @@
 
 This Streamlit-based expense tracker and budget management application helps users monitor their spending, set budgets, and analyze their financial habits. It provides an intuitive interface for tracking expenses, generating reports, and visualizing spending patterns.
 
+<p align="center">
+  <img src="images/screenshot_2.png" alt="Input Screen" width="100%"/>
+</p>
+
+## Disclaimer
+
+Financial Takeover is a financial assistant tool, NOT a financial advisor. This application:
+
+* Does not provide professional financial advice
+* Should not be used as a substitute for professional financial guidance
+* Is designed for personal expense tracking and budgeting assistance only
+* Makes no guarantees about the accuracy of financial calculations or predictions
+
+Please consult with qualified financial professionals for investment advice and important financial decisions.
+
+
 ## Features
 
 ### Expense Tracking:
-<img align="" src="images/screenshot_12.png" alt="Budget Demo" width="40%" style="margin-left: 40px"/>
-
 
 * Easy expense input with customizable categories
 * Receipt image upload and processing
@@ -20,7 +34,6 @@ This Streamlit-based expense tracker and budget management application helps use
 * Transaction history with filtering options
 
 ### Budget Management:
-<img align="" src="images/screenshot_10.png" alt="Budget Demo" width="40%" style="margin-left: 40px"/>
 
 * Monthly budget setting and tracking
 * Category-wise budget allocation
@@ -28,7 +41,6 @@ This Streamlit-based expense tracker and budget management application helps use
 * Customizable spending categories
 
 ### Analytics and Reporting
-<img align="" src="images/screenshot_11.png" alt="Budget Demo" width="40%" style="margin-left: 40px"/>
 
 * Interactive spending visualizations
 * Monthly and yearly comparison charts
@@ -79,7 +91,23 @@ cd Financial_Takeover
 
 ## How to Use
 
-<p align="center">
+<p align="left">
+  <img src="images/screenshot_3.png" alt="Welcome Screen" width="50%"/>
+</p>
+
+### Login
+
+<p align="left">
+  <img src="images/screenshot_4.png" alt="Welcome Screen" width="50%"/>
+</p>
+
+### Using Navigation
+
+* The Navigation Menu provides easy access to our different categories.
+* Home, Transactions, Analytics, History, Settings, and Creators.
+* The Backup Data feature allows you to save all your transaction history onto a PDF.
+
+<p align="left">
   <img src="images/screenshot_5.png" alt="Welcome Screen" width="75%"/>
 </p>
 
@@ -89,6 +117,11 @@ cd Financial_Takeover
 * Enter expense details (amount, category, date)
 * Upload receipt image (optional)
 * Submit the expense
+* Clear expense to start over.
+
+<p align="left">
+  <img src="images/screenshot_11.png" alt="Welcome Screen" width="75%"/>
+</p>
 
 ### Viewing Reports
 
@@ -96,6 +129,19 @@ cd Financial_Takeover
 * Select date range for analysis
 * View interactive charts and spending breakdowns
 * Export reports in desired format
+
+<p align="left">
+  <img src="images/screenshot_6.png" alt="Welcome Screen" width="75%"/>
+</p>
+
+### Transaction History
+
+* Review and recall financial history
+* Stores up to 5 previously cleared history
+
+<p align="left">
+  <img src="images/screenshot_10.png" alt="Welcome Screen" width="75%"/>
+</p>
 
 ### Managing Budgets
 
@@ -120,3 +166,8 @@ cd Financial_Takeover
 ## Contributors
 
 * Julian Hernandez: [Github](https://github.com/investinjuju)
+* Aiyana Estien
+* Jose Aninat Brinck
+* Buriel Noel
+* Allyanna Payne
+* Jesus Lara
