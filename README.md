@@ -11,6 +11,8 @@ This Streamlit-based expense tracker and budget management application helps use
 ## Features
 
 ### Expense Tracking:
+<img align="" src="images/screenshot_12.png" alt="Budget Demo" width="40%" style="margin-left: 40px"/>
+
 
 * Easy expense input with customizable categories
 * Receipt image upload and processing
@@ -18,7 +20,7 @@ This Streamlit-based expense tracker and budget management application helps use
 * Transaction history with filtering options
 
 ### Budget Management:
-<img align="" src="images/screenshot_10.png" alt="Budget Demo" width="30%" style="margin-left: 40px"/>
+<img align="" src="images/screenshot_10.png" alt="Budget Demo" width="40%" style="margin-left: 40px"/>
 
 * Monthly budget setting and tracking
 * Category-wise budget allocation
@@ -26,6 +28,7 @@ This Streamlit-based expense tracker and budget management application helps use
 * Customizable spending categories
 
 ### Analytics and Reporting
+<img align="" src="images/screenshot_11.png" alt="Budget Demo" width="40%" style="margin-left: 40px"/>
 
 * Interactive spending visualizations
 * Monthly and yearly comparison charts
