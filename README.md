@@ -8,10 +8,6 @@
 
 This Streamlit-based expense tracker and budget management application helps users monitor their spending, set budgets, and analyze their financial habits. It provides an intuitive interface for tracking expenses, generating reports, and visualizing spending patterns.
 
-<p align="center">
-  <img src="images/screenshot_2.png" alt="Input Screen" width="100%"/>
-</p>
-
 ## Disclaimer
 
 Financial Takeover is a financial assistant tool, NOT a financial advisor. This application:
@@ -91,27 +87,30 @@ cd Financial_Takeover
 
 ## How to Use
 
-<p align="left">
-  <img src="images/screenshot_3.png" alt="Welcome Screen" width="50%"/>
-</p>
-
 ### Login
 
 <p align="left">
-  <img src="images/screenshot_4.png" alt="Welcome Screen" width="50%"/>
+  <img src="images/screenshot_3.png" alt="Welcome Screen" width="75%"/>
 </p>
 
+* Login using a secure password storing system
+* Using the same login saves the data stored to that user
+
 ### Using Navigation
+
+<p align="left">
+  <img src="images/screenshot_4.png" alt="Welcome Screen" width="20%"/>
+</p>
 
 * The Navigation Menu provides easy access to our different categories.
 * Home, Transactions, Analytics, History, Settings, and Creators.
 * The Backup Data feature allows you to save all your transaction history onto a PDF.
 
+### Adding Expenses
+
 <p align="left">
   <img src="images/screenshot_5.png" alt="Welcome Screen" width="75%"/>
 </p>
-
-### Adding Expenses
 
 * Navigate to the "Add Expense" section
 * Enter expense details (amount, category, date)
@@ -119,31 +118,31 @@ cd Financial_Takeover
 * Submit the expense
 * Clear expense to start over.
 
+### Viewing Reports
+
 <p align="left">
   <img src="images/screenshot_11.png" alt="Welcome Screen" width="75%"/>
 </p>
-
-### Viewing Reports
 
 * Access the "Analytics" section
 * Select date range for analysis
 * View interactive charts and spending breakdowns
 * Export reports in desired format
 
+### Transaction History
+
 <p align="left">
   <img src="images/screenshot_6.png" alt="Welcome Screen" width="75%"/>
 </p>
 
-### Transaction History
-
 * Review and recall financial history
 * Stores up to 5 previously cleared history
+
+### Managing Budgets
 
 <p align="left">
   <img src="images/screenshot_10.png" alt="Welcome Screen" width="75%"/>
 </p>
-
-### Managing Budgets
 
 * Go to "Budget Settings"
 * Set monthly budgets by category
