@@ -170,3 +170,7 @@ cd Financial_Takeover
 * Buriel Noel
 * Allyanna Payne
 * Jesus Lara
+
+<p align="center">
+  <img src="images/Picture_3.png" alt="FIU" width="75%"/>
+</p>
